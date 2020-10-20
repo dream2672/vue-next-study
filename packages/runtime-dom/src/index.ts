@@ -50,22 +50,29 @@ export const hydrate = ((...args) => {
   ensureHydrationRenderer().hydrate(...args)
 }) as RootHydrateFunction
 
+// 创建浏览器 app 入口 app 总入口
 export const createApp = ((...args) => {
+  // 创建app 示例
   const app = ensureRenderer().createApp(...args)
 
+  // 如果是开发环境 检查浏览器标签是否正确，生产环境不检查了。ssr ？
   if (__DEV__) {
     injectNativeTagCheck(app)
   }
 
   const { mount } = app
+  // 调用 createApp().mount 本质是调用到这里
   app.mount = (containerOrSelector: Element | string): any => {
     const container = normalizeContainer(containerOrSelector)
     if (!container) return
+    // 获取到app 示例上的组件编译函数 如果没有挂载 template进行挂载
     const component = app._component
+    console.log(app._component)
     if (!isFunction(component) && !component.render && !component.template) {
       component.template = container.innerHTML
     }
     // clear content before mounting
+    // 挂载完成后清除dom上 html 元素
     container.innerHTML = ''
     const proxy = mount(container)
     container.removeAttribute('v-cloak')
@@ -103,6 +110,7 @@ function injectNativeTagCheck(app: App) {
   })
 }
 
+// 判断是否是 元素，如果是 字符串就直接返回
 function normalizeContainer(container: Element | string): Element | null {
   if (isString(container)) {
     const res = document.querySelector(container)

@@ -120,6 +120,7 @@ export type CreateAppFunction<HostElement> = (
 
 let uid = 0
 
+// 创建根app
 export function createAppAPI<HostElement>(
   render: RootRenderFunction,
   hydrate?: RootHydrateFunction
@@ -224,8 +225,12 @@ export function createAppAPI<HostElement>(
         return app
       },
 
+      // 挂载dom
+      // rootContainer 根节点 宿主元素 和环境无关 如果是其他app 重写这里
       mount(rootContainer: HostElement, isHydrate?: boolean): any {
+        // 判断是否已经挂载到dom，如果挂载了就抛出警告
         if (!isMounted) {
+          // 创建虚拟dom
           const vnode = createVNode(
             rootComponent as ConcreteComponent,
             rootProps

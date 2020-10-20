@@ -23,6 +23,7 @@ const target = args._.length ? fuzzyMatchTarget(args._)[0] : 'vue'
 const formats = args.formats || args.f
 const sourceMap = args.sourcemap || args.s
 const commit = execa.sync('git', ['rev-parse', 'HEAD']).stdout.slice(0, 7)
+// -wc
 
 execa(
   'rollup',

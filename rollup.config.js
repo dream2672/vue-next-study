@@ -18,6 +18,7 @@ const packageOptions = pkg.buildOptions || {}
 // ensure TS checks only once for each build
 let hasTSChecked = false
 
+// 编译输出配置
 const outputConfigs = {
   'esm-bundler': {
     file: resolve(`dist/${name}.esm-bundler.js`),
@@ -36,6 +37,7 @@ const outputConfigs = {
     format: `iife`
   },
 
+  // 运行时版本
   // runtime-only builds, for main "vue" package only
   'esm-bundler-runtime': {
     file: resolve(`dist/${name}.runtime.esm-bundler.js`),
@@ -71,7 +73,6 @@ if (process.env.NODE_ENV === 'production') {
     }
   })
 }
-
 export default packageConfigs
 
 function createConfig(format, output, plugins = []) {
@@ -115,7 +116,6 @@ function createConfig(format, output, plugins = []) {
   hasTSChecked = true
 
   const entryFile = /runtime$/.test(format) ? `src/runtime.ts` : `src/index.ts`
-
   const external =
     isGlobalBuild || isBrowserESMBuild
       ? packageOptions.enableNonBrowserBranches
@@ -197,7 +197,9 @@ function createReplacePlugin(
 ) {
   const replacements = {
     __COMMIT__: `"${process.env.COMMIT}"`,
+    // 注入版本号信息
     __VERSION__: `"${masterVersion}"`,
+    // 注入是否是开发环境
     __DEV__: isBundlerESMBuild
       ? // preserve to be handled by bundlers
         `(process.env.NODE_ENV !== 'production')`
@@ -206,6 +208,7 @@ function createReplacePlugin(
     // this is only used during Vue's internal tests
     __TEST__: false,
     // If the build is expected to run directly in the browser (global / esm builds)
+    // 注入编译环境 浏览器 全局等
     __BROWSER__: isBrowserBuild,
     __GLOBAL__: isGlobalBuild,
     __ESM_BUNDLER__: isBundlerESMBuild,

@@ -310,6 +310,8 @@ const normalizeRef = ({ ref }: VNodeProps): VNodeNormalizedRefAtom | null => {
     : null) as any
 }
 
+// 创建虚拟dom 区分开发和 正式
+// 开发 createVNodeWithArgsTransform
 export const createVNode = (__DEV__
   ? createVNodeWithArgsTransform
   : _createVNode) as typeof _createVNode

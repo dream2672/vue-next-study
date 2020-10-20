@@ -6,11 +6,13 @@ import { registerRuntimeCompiler, RenderFunction, warn } from '@vue/runtime-dom'
 import * as runtimeDom from '@vue/runtime-dom'
 import { isString, NOOP, generateCodeFrame, extend } from '@vue/shared'
 import { InternalRenderFunction } from 'packages/runtime-core/src/component'
-
+// 初始化dev环境
 __DEV__ && initDev()
 
+// 创建编译缓存
 const compileCache: Record<string, RenderFunction> = Object.create(null)
 
+// 编译 转化为render函数
 function compileToFunction(
   template: string | HTMLElement,
   options?: CompilerOptions
