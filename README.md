@@ -1,5 +1,7 @@
 # 学习 vue 3
+
 #### 代码结构
+
 ```
 
 reactivity 目录: 数据劫持
@@ -24,28 +26,36 @@ size-check 目录: 检查浏览器渲染包大小
 ```
 
 #### 如何启动
+
 ```javascript
 yarn
 yarn dev // 启动
 ```
 
 #### 如果调试
+
 ```javascript
 //dev后生成vue存放目录
-packages/vue/dist
+packages / vue / dist
 
 // 这个目录下创建单个页面进行 demo 调试
-packages/vue/examples/composition
- 
+packages / vue / examples / composition
 ```
 
 #### 编译过程
+
 ```javascript
 // 启动命令
 rollup [ '-wc', '--environment', 'COMMIT:111d04f,TARGET:vue,FORMATS:global' ] { stdio: 'inherit' }
+
+// 其中COMMIT的值 为当前git最新head版本号,该值目前仅作为demo展示的github link ，无其他作用
+// TARGET 目标包,根据当前值，决定使用哪个package包build，参照结构目录
+// FORMATS 打包文件格式，目前可选值为 esm-bundler,esm-browser,cjs,global
+
 ```
 
 #### 流程(浏览器)
+
 ```javascript
 runtime-dom --> createApp --> mount(本质是代理了 runtime-core mount)
 创建过程
