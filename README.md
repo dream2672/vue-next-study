@@ -25,8 +25,8 @@ size-check 目录: 检查浏览器渲染包大小
 
 #### 如何启动
 ```javascript
-npm i
-npm run dev // 启动
+yarn
+yarn dev // 启动
 ```
 
 #### 编译过程
@@ -35,8 +35,9 @@ npm run dev // 启动
 rollup [ '-wc', '--environment', 'COMMIT:111d04f,TARGET:vue,FORMATS:global' ] { stdio: 'inherit' }
 ```
 
-#### 流程
+#### 流程(浏览器)
 ```
+runtime-dom --> createApp --> mount(本质是代理了 runtime-core mount)
 创建过程
 apiCreateApp CreateApp -> mount
 
