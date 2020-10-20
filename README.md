@@ -50,7 +50,8 @@ rollup [ '-wc', '--environment', 'COMMIT:111d04f,TARGET:vue,FORMATS:global' ] { 
 
 // 其中COMMIT的值 为当前git最新head版本号,该值目前仅作为demo展示的github link ，无其他作用
 // TARGET 目标包,根据当前值，决定使用哪个package包build，参照结构目录
-// FORMATS 打包文件格式，目前可选值为 esm-bundler,esm-browser,cjs,global
+// FORMATS 打包文件格式，目前可选值为 esm-bundler,esm-browser,cjs,global, esm-bundler-runtime,esm-browser-runtime,global-runtime
+
 
 ```
 
