@@ -55,7 +55,7 @@ export function getBaseTransformPreset(
 // we name it `baseCompile` so that higher order compilers like
 // @vue/compiler-dom can export `compile` while re-exporting everything else.
 /**
- * @todo 具体参数作用
+ * @todo 具体参数作用及每部分详细过程
  * 模版编译，分为三部分
  * - parse 将template转换为ast树，并标记每个节点的作用，例如components，directive,slot等
  * - transform 将原本标记好的ast转换为vnode, tag, props,children等一些vnode属性已经添加到ast树上。
