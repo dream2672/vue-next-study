@@ -1,5 +1,6 @@
 # 学习 vue 3
 > [官网](https://v3.cn.vuejs.org/guide/installation.html#%E4%BD%BF%E7%94%A8%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7)
+> [建议了解,深入响应性原理](https://v3.cn.vuejs.org/guide/reactivity.html#%E4%BB%80%E4%B9%88%E6%98%AF%E5%93%8D%E5%BA%94%E6%80%A7)
 
 #### 代码结构
 

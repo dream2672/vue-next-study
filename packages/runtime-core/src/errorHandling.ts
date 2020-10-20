@@ -58,6 +58,13 @@ export const ErrorTypeStrings: Record<number | string, string> = {
 
 export type ErrorTypes = LifecycleHooks | ErrorCodes
 
+/**
+ * 执行错误处理
+ * @param fn config 传入的错误处理函数
+ * @param instance 组件实例
+ * @param type 错误类型 LifecycleHooks | ErrorCodes
+ * @param args
+ */
 export function callWithErrorHandling(
   fn: Function,
   instance: ComponentInternalInstance | null,
@@ -65,6 +72,7 @@ export function callWithErrorHandling(
   args?: unknown[]
 ) {
   let res
+  // 容错处理，如果传入其他执行错误的函数，不会导致应用错误
   try {
     res = args ? fn(...args) : fn()
   } catch (err) {
@@ -96,6 +104,13 @@ export function callWithAsyncErrorHandling(
   return values
 }
 
+/**
+ * 错误处理
+ * @param err 错误
+ * @param instance 组件实例
+ * @param type 错误类型 LifecycleHooks | ErrorCodes
+ * @param throwInDev
+ */
 export function handleError(
   err: unknown,
   instance: ComponentInternalInstance | null,
@@ -124,6 +139,8 @@ export function handleError(
     }
     // app-level handling
     const appErrorHandler = instance.appContext.config.errorHandler
+    // 判断是否有传入错误函数
+    // 如果有就直接回调处理
     if (appErrorHandler) {
       callWithErrorHandling(
         appErrorHandler,
