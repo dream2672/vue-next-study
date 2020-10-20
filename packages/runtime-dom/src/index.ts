@@ -114,7 +114,12 @@ function injectNativeTagCheck(app: App) {
   })
 }
 
-// 判断是否是 元素，如果是 字符串就直接返回
+/**
+ * 判断是否是字符串
+ * 如果是 字符串则找到元素对应的htmlElement，返回dom
+ * 如果是htmlElement则直接返回
+ * 注意，此处是从document上进行查找，所以此处的container应该是已经挂载在页面中的htmlElement
+ */
 function normalizeContainer(container: Element | string): Element | null {
   if (isString(container)) {
     const res = document.querySelector(container)
