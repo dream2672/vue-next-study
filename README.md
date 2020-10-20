@@ -1,4 +1,5 @@
 # 学习 vue 3
+> [官网](https://v3.cn.vuejs.org/guide/installation.html#%E4%BD%BF%E7%94%A8%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7)
 
 #### 代码结构
 
@@ -15,7 +16,8 @@ runtime-test 测试runtime目录
 server-renderer 目录: 用于 SSR
 
 compiler-core 目录: 平台无关的编译器. 它既包含可扩展的基础功能，也包含所有平台无关的插件。
-compiler-dom 把html 解析为 render
+
+compiler-dom 目录: 把html 解析为 render
 
 shared 目录: 没有暴露任何 API，主要包含了一些平台无关的内部帮助方法。
 

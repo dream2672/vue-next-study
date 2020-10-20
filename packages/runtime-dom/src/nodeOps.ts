@@ -8,6 +8,9 @@ let tempContainer: HTMLElement
 let tempSVGContainer: SVGElement
 
 export const nodeOps: Omit<RendererOptions<Node, Element>, 'patchProp'> = {
+  /**
+   * 插入真实DOM
+   */
   insert: (child, parent, anchor) => {
     parent.insertBefore(child, anchor || null)
   },

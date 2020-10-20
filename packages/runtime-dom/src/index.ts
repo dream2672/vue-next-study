@@ -7,7 +7,7 @@ import {
   Renderer,
   HydrationRenderer,
   App,
-  RootHydrateFunction,
+  RootHydrateFunction
 } from '@vue/runtime-core'
 import { nodeOps } from './nodeOps'
 import { patchProp, forcePatchProp } from './patchProp'
@@ -55,10 +55,15 @@ export const createApp = ((...args) => {
   // 创建app 示例
   const app = ensureRenderer().createApp(...args)
 
-  // 如果是开发环境 检查浏览器标签是否正确，生产环境不检查了。ssr ？
-  // @todo 需讨论
-  // 根据compiler的过程，html标签及svg标签优先于组件标签
-  // 所以是否可以认为是在编写时做的是提醒，而在build时，无需判断，如果写了，后果自负？
+  /**
+   * 根据compiler的过程，html标签及svg标签优先于组件标签
+   * 只在开发环境进行判断，在构建生产包通过 treeshaking 去除代码
+   * 交给捆绑程序处理示例代码
+   * if ((process.env.NODE_ENV !== 'production')) {
+   *   injectNativeTagCheck(app);
+   *  }
+   */
+
   if (__DEV__) {
     injectNativeTagCheck(app)
   }
@@ -70,7 +75,6 @@ export const createApp = ((...args) => {
     if (!container) return
     // 获取到app 示例上的组件编译函数 如果没有挂载 template进行挂载
     const component = app._component
-    console.log(app._component)
     if (!isFunction(component) && !component.render && !component.template) {
       component.template = container.innerHTML
     }
@@ -110,11 +114,15 @@ function injectNativeTagCheck(app: App) {
   // 仅在开发环境检测组件名称是否与html标签冲突
   Object.defineProperty(app.config, 'isNativeTag', {
     value: (tag: string) => isHTMLTag(tag) || isSVGTag(tag),
-    writable: false,
+    writable: false
   })
 }
 
-// 判断是否是 元素，如果是 字符串就直接返回
+/**
+ * 统一返回容器
+ * @param container
+ * @return Element
+ */
 function normalizeContainer(container: Element | string): Element | null {
   if (isString(container)) {
     const res = document.querySelector(container)
@@ -134,7 +142,7 @@ export { useCssVars } from './helpers/useCssVars'
 export { Transition, TransitionProps } from './components/Transition'
 export {
   TransitionGroup,
-  TransitionGroupProps,
+  TransitionGroupProps
 } from './components/TransitionGroup'
 
 // **Internal** DOM-only runtime directive helpers
@@ -143,7 +151,7 @@ export {
   vModelCheckbox,
   vModelRadio,
   vModelSelect,
-  vModelDynamic,
+  vModelDynamic
 } from './directives/vModel'
 export { withModifiers, withKeys } from './directives/vOn'
 export { vShow } from './directives/vShow'
