@@ -29,14 +29,24 @@ yarn
 yarn dev // 启动
 ```
 
-#### 编译过程
+#### 如果调试
+```javascript
+//dev后生成vue存放目录
+packages/vue/dist
+
+// 这个目录下创建单个页面问题
+packages/vue/examples/composition
+ 
 ```
+
+#### 编译过程
+```javascript
 // 启动命令
 rollup [ '-wc', '--environment', 'COMMIT:111d04f,TARGET:vue,FORMATS:global' ] { stdio: 'inherit' }
 ```
 
 #### 流程(浏览器)
-```
+```javascript
 runtime-dom --> createApp --> mount(本质是代理了 runtime-core mount)
 创建过程
 apiCreateApp CreateApp -> mount
