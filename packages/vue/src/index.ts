@@ -17,7 +17,7 @@ const compileCache: Record<string, RenderFunction> = Object.create(null)
  * 在实际的组件使用中，只使用render函数做为渲染方式
  * creatApp的时候， 可以传入template或者render，其中render优先级大于template，在template和render同时存在时，只使用render，不处理template
  * @params template { string | HTMLElement} template有3种选择，可以为一段html代码，也可以为一个id节点名（需以#为开头），或者一个具体的dom节点
- * @params options 编译参数，参数分为Parser， Transform ，Codegen 三个部分。在编译的时候，再具体细说
+ * @params options 编译参数，参数分为Parser， Transform ，Codegen 三个部分。参照packages/compiler-core/src/compile.ts
  */
 function compileToFunction(
   template: string | HTMLElement,

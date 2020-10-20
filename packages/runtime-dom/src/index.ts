@@ -7,7 +7,7 @@ import {
   Renderer,
   HydrationRenderer,
   App,
-  RootHydrateFunction
+  RootHydrateFunction,
 } from '@vue/runtime-core'
 import { nodeOps } from './nodeOps'
 import { patchProp, forcePatchProp } from './patchProp'
@@ -56,6 +56,9 @@ export const createApp = ((...args) => {
   const app = ensureRenderer().createApp(...args)
 
   // 如果是开发环境 检查浏览器标签是否正确，生产环境不检查了。ssr ？
+  // @todo 需讨论
+  // 根据compiler的过程，html标签及svg标签优先于组件标签
+  // 所以是否可以认为是在编写时做的是提醒，而在build时，无需判断，如果写了，后果自负？
   if (__DEV__) {
     injectNativeTagCheck(app)
   }
@@ -104,9 +107,10 @@ export const createSSRApp = ((...args) => {
 function injectNativeTagCheck(app: App) {
   // Inject `isNativeTag`
   // this is used for component name validation (dev only)
+  // 仅在开发环境检测组件名称是否与html标签冲突
   Object.defineProperty(app.config, 'isNativeTag', {
     value: (tag: string) => isHTMLTag(tag) || isSVGTag(tag),
-    writable: false
+    writable: false,
   })
 }
 
@@ -130,7 +134,7 @@ export { useCssVars } from './helpers/useCssVars'
 export { Transition, TransitionProps } from './components/Transition'
 export {
   TransitionGroup,
-  TransitionGroupProps
+  TransitionGroupProps,
 } from './components/TransitionGroup'
 
 // **Internal** DOM-only runtime directive helpers
@@ -139,7 +143,7 @@ export {
   vModelCheckbox,
   vModelRadio,
   vModelSelect,
-  vModelDynamic
+  vModelDynamic,
 } from './directives/vModel'
 export { withModifiers, withKeys } from './directives/vOn'
 export { vShow } from './directives/vShow'
