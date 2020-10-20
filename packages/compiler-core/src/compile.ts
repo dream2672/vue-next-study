@@ -34,26 +34,34 @@ export function getBaseTransformPreset(
         ? [
             // order is important
             trackVForSlotScopes,
-            transformExpression
+            transformExpression,
           ]
         : __BROWSER__ && __DEV__
-          ? [transformExpression]
-          : []),
+        ? [transformExpression]
+        : []),
       transformSlotOutlet,
       transformElement,
       trackSlotScopes,
-      transformText
+      transformText,
     ],
     {
       on: transformOn,
       bind: transformBind,
-      model: transformModel
-    }
+      model: transformModel,
+    },
   ]
 }
 
 // we name it `baseCompile` so that higher order compilers like
 // @vue/compiler-dom can export `compile` while re-exporting everything else.
+/**
+ * 模版编译，分为三部分
+ * - parse 将template转换为ast树，并标记每个节点的作用，例如components，directive,slot等
+ * - transform 将原本标记好的ast转换为vnode, tag, props,children等一些vnode属性已经添加到ast树上。
+ * - generate 将vnode转换为词法文本，根据生成器添加临时变量，import语句等，转换为一个render函数的文本
+ * @param template
+ * @param options
+ */
 export function baseCompile(
   template: string | RootNode,
   options: CompilerOptions = {}
@@ -88,20 +96,20 @@ export function baseCompile(
       prefixIdentifiers,
       nodeTransforms: [
         ...nodeTransforms,
-        ...(options.nodeTransforms || []) // user transforms
+        ...(options.nodeTransforms || []), // user transforms
       ],
       directiveTransforms: extend(
         {},
         directiveTransforms,
         options.directiveTransforms || {} // user transforms
-      )
+      ),
     })
   )
 
   return generate(
     ast,
     extend({}, options, {
-      prefixIdentifiers
+      prefixIdentifiers,
     })
   )
 }
