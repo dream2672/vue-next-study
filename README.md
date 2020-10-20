@@ -34,7 +34,7 @@ yarn dev // 启动
 //dev后生成vue存放目录
 packages/vue/dist
 
-// 这个目录下创建单个页面问题
+// 这个目录下创建单个页面进行 demo 调试
 packages/vue/examples/composition
  
 ```
