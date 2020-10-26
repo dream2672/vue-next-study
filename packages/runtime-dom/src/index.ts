@@ -55,10 +55,15 @@ export const createApp = ((...args) => {
   // 创建app 示例
   const app = ensureRenderer().createApp(...args)
 
-  // 如果是开发环境 检查浏览器标签是否正确，生产环境不检查了。ssr ？
-  // @todo 需讨论
-  // 根据compiler的过程，html标签及svg标签优先于组件标签
-  // 所以是否可以认为是在编写时做的是提醒，而在build时，无需判断，如果写了，后果自负？
+  /**
+   * 根据compiler的过程，html标签及svg标签优先于组件标签
+   * 只在开发环境进行判断，在构建生产包通过 treeshaking 去除代码
+   * 交给捆绑程序处理示例代码
+   * if ((process.env.NODE_ENV !== 'production')) {
+   *   injectNativeTagCheck(app);
+   *  }
+   */
+
   if (__DEV__) {
     injectNativeTagCheck(app)
   }
@@ -70,7 +75,6 @@ export const createApp = ((...args) => {
     if (!container) return
     // 获取到app 示例上的组件编译函数 如果没有挂载 template进行挂载
     const component = app._component
-    console.log(app._component)
     if (!isFunction(component) && !component.render && !component.template) {
       component.template = container.innerHTML
     }
@@ -115,10 +119,9 @@ function injectNativeTagCheck(app: App) {
 }
 
 /**
- * 判断是否是字符串
- * 如果是 字符串则找到元素对应的htmlElement，返回dom
- * 如果是htmlElement则直接返回
- * 注意，此处是从document上进行查找，所以此处的container应该是已经挂载在页面中的htmlElement
+ * 统一返回容器
+ * @param container
+ * @return Element
  */
 function normalizeContainer(container: Element | string): Element | null {
   if (isString(container)) {

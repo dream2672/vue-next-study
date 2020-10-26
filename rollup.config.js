@@ -199,7 +199,9 @@ function createReplacePlugin(
     __COMMIT__: `"${process.env.COMMIT}"`,
     // 注入版本号信息
     __VERSION__: `"${masterVersion}"`,
-    // 注入是否是开发环境
+    // https://v3.cn.vuejs.org/guide/installation.html#%E4%BD%BF%E7%94%A8%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7
+    // 如果是 bundler 把 __DEV__ 留给捆绑程序
+    // 如果不是就硬编码处理
     __DEV__: isBundlerESMBuild
       ? // preserve to be handled by bundlers
         `(process.env.NODE_ENV !== 'production')`
