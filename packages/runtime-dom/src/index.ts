@@ -7,7 +7,7 @@ import {
   Renderer,
   HydrationRenderer,
   App,
-  RootHydrateFunction,
+  RootHydrateFunction
 } from '@vue/runtime-core'
 import { nodeOps } from './nodeOps'
 import { patchProp, forcePatchProp } from './patchProp'
@@ -73,8 +73,14 @@ export const createApp = ((...args) => {
   app.mount = (containerOrSelector: Element | string): any => {
     const container = normalizeContainer(containerOrSelector)
     if (!container) return
-    // 获取到app 示例上的组件编译函数 如果没有挂载 template进行挂载
+    // 获取app组件配置
     const component = app._component
+
+    // 获取到app 示例上的组件编译函数 如果没有挂载 template进行挂载
+    /**
+     * 组件不能是函数
+     * 组件如果有render或者template
+     */
     if (!isFunction(component) && !component.render && !component.template) {
       component.template = container.innerHTML
     }
@@ -114,7 +120,7 @@ function injectNativeTagCheck(app: App) {
   // 仅在开发环境检测组件名称是否与html标签冲突
   Object.defineProperty(app.config, 'isNativeTag', {
     value: (tag: string) => isHTMLTag(tag) || isSVGTag(tag),
-    writable: false,
+    writable: false
   })
 }
 
@@ -142,7 +148,7 @@ export { useCssVars } from './helpers/useCssVars'
 export { Transition, TransitionProps } from './components/Transition'
 export {
   TransitionGroup,
-  TransitionGroupProps,
+  TransitionGroupProps
 } from './components/TransitionGroup'
 
 // **Internal** DOM-only runtime directive helpers
@@ -151,7 +157,7 @@ export {
   vModelCheckbox,
   vModelRadio,
   vModelSelect,
-  vModelDynamic,
+  vModelDynamic
 } from './directives/vModel'
 export { withModifiers, withKeys } from './directives/vOn'
 export { vShow } from './directives/vShow'

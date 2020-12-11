@@ -51,6 +51,7 @@ export async function renderToString(
   input: App | VNode,
   context: SSRContext = {}
 ): Promise<string> {
+  // 如果是虚拟dom 就直接用app包装后再次调用 renderToString 返回
   if (isVNode(input)) {
     // raw vnode, wrap with app (for context)
     return renderToString(createApp({ render: () => input }), context)

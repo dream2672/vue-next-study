@@ -801,6 +801,7 @@ export function formatComponentName(
   return name ? classify(name) : isRoot ? `App` : `Anonymous`
 }
 
+// TODO 什么情况下是 class 组件 __vccOpts 什么意思？什么时候添加？
 export function isClassComponent(value: unknown): value is ClassComponent {
   return isFunction(value) && '__vccOpts' in value
 }

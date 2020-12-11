@@ -254,6 +254,11 @@ export function createBlock(
   return vnode
 }
 
+/**
+ * 判断是否是虚拟dom 判断条件是 app组件里面 __v_isVNode === true
+ * __v_isVNode 是经过模板编译后添加
+ * @param value
+ */
 export function isVNode(value: any): value is VNode {
   return value ? value.__v_isVNode === true : false
 }
@@ -290,6 +295,9 @@ export function transformVNodeArgs(transformer?: typeof vnodeArgsTransformer) {
 const createVNodeWithArgsTransform = (
   ...args: Parameters<typeof _createVNode>
 ): VNode => {
+  /**
+   * 当测试时候vnodeArgsTransformer 才有值
+   */
   return _createVNode(
     ...(vnodeArgsTransformer
       ? vnodeArgsTransformer(args, currentRenderingInstance)
@@ -331,6 +339,8 @@ function _createVNode(
     type = Comment
   }
 
+  // 判断是否已经是虚拟dom了
+  // TODO 查阅如果是虚拟dom 如果处理
   if (isVNode(type)) {
     // createVNode receiving an existing vnode. This happens in cases like
     // <component :is="vnode"/>
@@ -343,11 +353,13 @@ function _createVNode(
   }
 
   // class component normalization.
+  // TODO 什么情况下会使用 isClassComponent
   if (isClassComponent(type)) {
     type = type.__vccOpts
   }
 
   // class & style normalization.
+  // TODO 有 props 查阅处理逻辑
   if (props) {
     // for reactive or proxy objects, we need to clone it to enable mutation.
     if (isProxy(props) || InternalObjectKey in props) {
@@ -379,7 +391,6 @@ function _createVNode(
           : isFunction(type)
             ? ShapeFlags.FUNCTIONAL_COMPONENT
             : 0
-
   if (__DEV__ && shapeFlag & ShapeFlags.STATEFUL_COMPONENT && isProxy(type)) {
     type = toRaw(type)
     warn(
@@ -391,7 +402,6 @@ function _createVNode(
       type
     )
   }
-
   const vnode: VNode = {
     __v_isVNode: true,
     [ReactiveFlags.SKIP]: true,
@@ -450,7 +460,6 @@ function _createVNode(
   ) {
     currentBlock.push(vnode)
   }
-
   return vnode
 }
 

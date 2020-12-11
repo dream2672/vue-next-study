@@ -7,11 +7,14 @@
 </head>
 <body>
     <div id="demo">
-        <h1>{{demo}}</h1>
+        <div>
+            <div>静态dom</div>
+            <h1 @click="test">{{demo}}</h1>
+        </div>
     </div>
     <script src="../../dist/vue.global.js"></script>
     <script>
-        // const { createApp, ref, watchEffect } = Vue
+        const { createApp, ref, watchEffect } = Vue
         // createApp({
         //     setup() {
         //         const demo = ref('demo')
@@ -25,19 +28,21 @@
         //         }
         //     }
         // }).mount('#demo')
-        const dinner = {
-            meal: 'tacos'
-        }
-
-        const handler = {
-        get(target, prop) {
-            console.log('intercepted!', target)
-            return target[prop]
-        }
-        }
-
-        const proxy = new Proxy(dinner, handler)
-        console.log(proxy.meal)
+        createApp({
+            data(){
+                return {
+                    demo: 'init'
+                }
+            },
+            created: () =>{
+                console.log('2')
+            },
+            methods:{
+                test(){
+                    console.log(this)
+                }
+            }
+        }).mount('#demo')
     </script>
 </body>
 </html>

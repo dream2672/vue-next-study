@@ -94,6 +94,9 @@ export type Plugin =
       install: PluginInstallFunction
     }
 
+/**
+ * 创建应用程序上下文
+ */
 export function createAppContext(): AppContext {
   return {
     app: null as any,
@@ -125,6 +128,12 @@ export function createAppAPI<HostElement>(
   render: RootRenderFunction,
   hydrate?: RootHydrateFunction
 ): CreateAppFunction<HostElement> {
+  /**
+   * 创建 APP
+   * rootComponent root组件
+   * rootProps     root参数
+   */
+  // TODO rootProps 未查明
   return function createApp(rootComponent, rootProps = null) {
     if (rootProps != null && !isObject(rootProps)) {
       __DEV__ && warn(`root props passed to app.mount() must be an object.`)
@@ -132,6 +141,7 @@ export function createAppAPI<HostElement>(
     }
 
     const context = createAppContext()
+    // 维护一个已安装的插件集合
     const installedPlugins = new Set()
 
     let isMounted = false
@@ -157,13 +167,22 @@ export function createAppAPI<HostElement>(
         }
       },
 
+      /**
+       * 注册一个插件
+       * @param plugin 插件本身
+       * @param options 参数
+       */
       use(plugin: Plugin, ...options: any[]) {
         if (installedPlugins.has(plugin)) {
+          // 判断插件是否已注册，防止重复安装
+          // 如果在开发环境 抛出警告提醒你插件已安装
           __DEV__ && warn(`Plugin has already been applied to target app.`)
         } else if (plugin && isFunction(plugin.install)) {
+          // 如果插件提供 install 方法添加到app 插件集合并执行插件
           installedPlugins.add(plugin)
           plugin.install(app, ...options)
         } else if (isFunction(plugin)) {
+          // 如果插件是个function直接运行插件
           installedPlugins.add(plugin)
           plugin(app, ...options)
         } else if (__DEV__) {
@@ -172,6 +191,7 @@ export function createAppAPI<HostElement>(
               `function.`
           )
         }
+        // 返回 app 实例支持链式调用
         return app
       },
 
@@ -245,7 +265,7 @@ export function createAppAPI<HostElement>(
               render(cloneVNode(vnode), rootContainer)
             }
           }
-
+          // debugger
           if (isHydrate && hydrate) {
             hydrate(vnode as VNode<Node, Element>, rootContainer as any)
           } else {

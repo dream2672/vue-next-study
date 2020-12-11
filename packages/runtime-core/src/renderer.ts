@@ -89,6 +89,7 @@ export type RootRenderFunction<HostElement = RendererElement> = (
   container: HostElement
 ) => void
 
+// 渲染器选项
 export interface RendererOptions<
   HostNode = RendererNode,
   HostElement = RendererElement
@@ -105,6 +106,12 @@ export interface RendererOptions<
     unmountChildren?: UnmountChildrenFn
   ): void
   forcePatchProp?(el: HostElement, key: string): boolean
+  /**
+   * 插入元素
+   * @param el 需要插入的元素
+   * @param parent 元素父节点
+   * @param anchor 选项
+   */
   insert(el: HostNode, parent: HostElement, anchor?: HostNode | null): void
   remove(el: HostNode): void
   createElement(
@@ -378,19 +385,19 @@ export const setRef = (
 }
 
 /**
- * The createRenderer function accepts two generic arguments:
- * HostNode and HostElement, corresponding to Node and Element types in the
- * host environment. For example, for runtime-dom, HostNode would be the DOM
- * `Node` interface and HostElement would be the DOM `Element` interface.
+ *createRenderer函数接受两个通用参数：
+ *HostNode和HostElement，对应于
+ *主机环境。例如，对于runtime-dom，HostNode将是DOM
+ *`Node`接口和HostElement将是DOM`Element`接口。
  *
- * Custom renderers can pass in the platform specific types like this:
+ *自定义渲染器可以传入特定于平台的类型，例如：
  *
- * ``` js
- * const { render, createApp } = createRenderer<Node, Element>({
- *   patchProp,
- *   ...nodeOps
- * })
- * ```
+ *```js
+ *const {render，createApp} = createRenderer <节点，元素>（{
+ *patchProp，
+ *... nodeOps
+ *}）
+ *```
  */
 export function createRenderer<
   HostNode = RendererNode,
@@ -421,6 +428,7 @@ function baseCreateRenderer(
 ): HydrationRenderer
 
 // implementation
+// 创建编译渲染器
 function baseCreateRenderer(
   options: RendererOptions,
   createHydrationFns?: typeof createHydrationFunctions
@@ -472,6 +480,7 @@ function baseCreateRenderer(
     }
 
     const { type, ref, shapeFlag } = n2
+    console.log(type, ' type')
     switch (type) {
       case Text:
         processText(n1, n2, container, anchor)

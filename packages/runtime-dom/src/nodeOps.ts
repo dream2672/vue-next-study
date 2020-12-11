@@ -7,14 +7,14 @@ const doc = (typeof document !== 'undefined' ? document : null) as Document
 let tempContainer: HTMLElement
 let tempSVGContainer: SVGElement
 
+/**
+ * 基于浏览器实现的 Api
+ */
+// TODO 浏览器dom
 export const nodeOps: Omit<RendererOptions<Node, Element>, 'patchProp'> = {
-  /**
-   * 插入真实DOM
-   */
   insert: (child, parent, anchor) => {
     parent.insertBefore(child, anchor || null)
   },
-
   remove: child => {
     const parent = child.parentNode
     if (parent) {
